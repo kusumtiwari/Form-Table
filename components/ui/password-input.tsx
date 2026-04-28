@@ -1,7 +1,8 @@
 import React, { forwardRef, useState } from "react";
 import { Input, InputProps } from "../ui/input";
 import { cn } from "@/lib/utils";
-import { EyeClosedIcon, EyeOpenIcon } from "@/assets";
+import { EyeClosedIcon, EyeIcon, EyeOff, EyeOffIcon } from "lucide-react";
+
 
 type PasswordInputProps = InputProps & {
   className?: string;
@@ -12,28 +13,29 @@ type PasswordInputProps = InputProps & {
 const PasswordInput = forwardRef<HTMLInputElement, PasswordInputProps>(
   ({ className, error, placeholder, ...props }, ref) => {
     const [showPassword, setShowPassword] = useState<boolean>(false);
+
     return (
       <div className="relative w-full">
         <Input
           ref={ref}
-          className={cn("w-full pr-10", className)}
+          className={className}
           error={error}
           placeholder={placeholder}
+           {...props}                                  
           type={showPassword ? "text" : "password"}
-          {...props}
         />
         <span
           aria-hidden
           className={cn(
-            " cursor-pointer text-icon-icon hover:text-icon-hover absolute top-3 end-0 pe-3 flex items-center",
-            error && "text-red-500"
+            "cursor-pointer absolute right-3 flex items-center text-muted-foreground hover:text-foreground",
+            error ? "top-3" : "top-1/2 -translate-y-1/2" 
           )}
-          onClick={() => setShowPassword(!showPassword)}
+          onClick={() => setShowPassword((prev) => !prev)}
         >
           {showPassword ? (
-            <EyeOpenIcon className="text-icon size-6 hover:text-icon-hover" />
+            <EyeIcon className="size-4" />
           ) : (
-            <EyeClosedIcon className="text-icon size-6 hover:text-icon-hover" />
+            <EyeOffIcon className="size-4" />
           )}
         </span>
       </div>

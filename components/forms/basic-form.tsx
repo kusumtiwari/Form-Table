@@ -1,12 +1,13 @@
 "use client";
 
-import { Form, Resolver, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Input } from "@/components/ui/input";
 import { userSchema, UserFormValues } from "@/lib/schema/user.schema";
 import { Button } from "../ui/button";
 import FormGroup from "../ui/form-group";
 import { Label } from "../ui/label";
+import { PasswordInput } from "../ui/password-input";
 
 export default function BasicForm() {
   const {
@@ -16,16 +17,13 @@ export default function BasicForm() {
     watch,
     handleSubmit,
     reset,
-    setError,
-    getValues,
   } = useForm<UserFormValues>({
     defaultValues: { firstName: "", lastName: "", email: "" },
     resolver: zodResolver(userSchema),
   });
-
   console.log("Errors:", errors);
   return (
-    <div className="flex items-center justify-center min-h-screen">
+
       <form
         className="space-y-4 w-md"
         onSubmit={handleSubmit((data) => console.log(data))}
@@ -63,7 +61,7 @@ export default function BasicForm() {
 
          <FormGroup>
           <Label htmlFor="password">Password</Label>
-          <Input
+          <PasswordInput
             id="password"
             placeholder="Password"
             type="password"
@@ -71,9 +69,8 @@ export default function BasicForm() {
             error={errors.password?.message}
           />
         </FormGroup>
-
         <Button type="submit" className="w-full p-6 cursor-pointer">Submit</Button>
       </form>
-    </div>
+
   );
 }
