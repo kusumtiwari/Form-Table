@@ -79,7 +79,7 @@ export default function BasicForm() {
           error={errors.password?.message}
         />
       </FormGroup>
-      <Button type="submit" className="w-full p-6 cursor-pointer" isLoading={isLoading} disabled={isLoading || isFormEmpty}>
+      <Button type="submit" className="w-full p-3 cursor-pointer" isLoading={isLoading} disabled={isLoading || isFormEmpty}>
         Submit
       </Button>
     </form>
