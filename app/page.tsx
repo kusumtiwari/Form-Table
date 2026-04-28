@@ -3,7 +3,7 @@ import UserTable from "@/components/tables/user-table";
 
 export default function Home() {
   return (
-    <div className="flex flex-col items-center justify-center gap-10 min-h-screen w-full">
+    <div className="flex flex-col items-center justify-center gap-10 min-h-screen w-full pt-10">
     <BasicForm/>
     <UserTable/>
     </div>
