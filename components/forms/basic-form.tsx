@@ -23,7 +23,6 @@ export default function BasicForm() {
   });
   console.log("Errors:", errors);
   return (
-
       <form
         className="space-y-4 w-md"
         onSubmit={handleSubmit((data) => console.log(data))}
