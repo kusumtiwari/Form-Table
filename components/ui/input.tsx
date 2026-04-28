@@ -1,19 +1,78 @@
-import * as React from "react"
+import { cn } from "@/lib/utils";
+import React from "react";
 
-import { cn } from "@/lib/utils"
+export interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
+  prefix?: string;
+  suffix?: string;
+  PrefixIcon?: React.ElementType;
+  prefixIconClassname?: string;
+  suffixIconClassname?: string;
+  SuffixIcon?: React.ElementType;
+  error?: string;
+  errorVariant?: 'default' | 'table' | 'tooltip';
+  inputClassName?: string;
+  containerClassName?: string;
+  containerStyle?: React.CSSProperties;
+  showErrorMessage?: boolean;
+  addOnAfter?: React.ReactNode;
+  intent?: 'default' | 'ghost';
+  relativeErrorMessage?: boolean;
+  errorClassName?: string;
+  hidden?: boolean;
 
-function Input({ className, type, ...props }: React.ComponentProps<"input">) {
-  return (
-    <input
-      type={type}
-      data-slot="input"
-      className={cn(
-        "h-8 w-full min-w-0 rounded-lg border border-input bg-transparent px-2.5 py-1 text-base transition-colors outline-none file:inline-flex file:h-6 file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 disabled:pointer-events-none disabled:cursor-not-allowed disabled:bg-input/50 disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-3 aria-invalid:ring-destructive/20 md:text-sm dark:bg-input/30 dark:disabled:bg-input/80 dark:aria-invalid:border-destructive/50 dark:aria-invalid:ring-destructive/40",
-        className
-      )}
-      {...props}
-    />
-  )
+  // size?: 'default' | 'small';
 }
+const Input = React.forwardRef<HTMLInputElement, InputProps>(
+  (
+    {
+      className,
+      inputClassName,
+      type,
+      error,
+      errorClassName,
+      prefix,
+      suffix,
+      PrefixIcon,
+      prefixIconClassname,
+      suffixIconClassname,
+      SuffixIcon,
+      disabled,
+      containerClassName,
+      showErrorMessage = true,
+      hidden,
+      ...props
+    },
+    ref
+  ) => {
+    if (hidden) return null;
 
-export { Input }
+    return (
+      <div className={cn(containerClassName)}>
+        <div
+          className={cn(
+            "w-full inline-flex rounded-md gap-2 items-center rounded-4 border border-border px-3 py-2.5 text-16 bg-background focus-within:ring-[0.5px] focus-within:ring-offset-[0.5px] h-11",
+            className,
+            disabled && "bg-muted cursor-not-allowed opacity-50",
+            error && "border-red-500"
+          )}
+        >
+          {prefix && <span className="mr-1">{prefix}</span>}
+          {PrefixIcon && <PrefixIcon className={cn("size-5", prefixIconClassname)} />}
+          <input type={type} ref={ref} disabled={disabled} className="outline-none w-full bg-transparent" {...props} />
+          {suffix && <span className="ml-1">{suffix}</span>}
+          {SuffixIcon && <SuffixIcon className={cn("size-5", suffixIconClassname)} />}
+        </div>
+
+      
+        {error && showErrorMessage && (
+          <span className={cn("text-red-500 text-sm mt-1 block", errorClassName)}>
+            {error}
+          </span>
+        )}
+      </div>
+    );
+  }
+);
+Input.displayName = "Input";
+
+export { Input };
